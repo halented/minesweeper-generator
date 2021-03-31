@@ -1,0 +1,20 @@
+<h2>new board form</h2>
+
+<%= form_with model: @board do |f| %>
+    <%= f.label :email, "Creator Email:" %>
+    <%= f.text_field :email %>
+    <p/>
+    <%= f.label :name, "Board Name:" %>
+    <%= f.text_field :name %>
+    <p>____________________________</p>
+    <div>Board Dimensions</div>
+    <p/>
+    <%= f.label :height, "Height and width (in number of squares):" %>
+    <%= f.number_field :height, placeholder: "height" %> X
+    <%= f.number_field :width, placeholder: "width"%>
+    <br/>
+    <%= f.label :mines, "Number of mines:" %>
+    <%= f.number_field :mines %> 
+    <br/>
+    <%=f.submit "Save Board"%>
+<%end %>
