@@ -1,3 +1,8 @@
 <h1>all boards</h1>
-
-<%=@boards[0].name%>
+<ul>
+<%@boards.each do |board|%>
+    <li>
+    <%= link_to board.name, board%>
+    </li>
+<%end%>
+</ul

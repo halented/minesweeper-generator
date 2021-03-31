@@ -1,3 +1,4 @@
-<h1> show</h1>
-<p>name:</p>
-<%=@board.name%>
+<h1>Currently Viewing <%=@board.name%></h1>
+<h2>...a board made by <%=@board.email%></h2>
+
+<%= link_to "View All Boards", boards_path%>
