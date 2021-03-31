@@ -1,5 +1,5 @@
 {
-  "name": "minesweeper-clone",
+  "name": "minesweeper-generator",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",

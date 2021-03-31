@@ -5,15 +5,14 @@ class BoardsController < ApplicationController
     
     def create
         @newBoard = Board.new(board_params)
+
         if @newBoard.save
 
             redirect_to @newBoard
         else
-            # add errors info to flash
+            flash[:error] = @newBoard.errors.full_messages.to_sentence
+            redirect_to '/'
         end
-        # this should actually redirect to show but leaving as index for now
-        # fallback, re-render same page
-        # render :new
     end
 
     def new

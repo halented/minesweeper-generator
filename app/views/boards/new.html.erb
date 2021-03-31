@@ -1,5 +1,11 @@
 <h2>new board form</h2>
 
+<%if flash[:error]%>
+    <p>Bummer! Your submission resulted in the following error(s): </p>
+    <%=flash[:error]%>
+    <p/>
+<%end%>
+
 <%= form_with model: @board do |f| %>
     <%= f.label :email, "Creator Email:" %>
     <%= f.text_field :email %>
