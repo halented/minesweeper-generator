@@ -9,8 +9,10 @@ class BoardsController < ApplicationController
 
         # pass numbers to mondel method to generate 2d array board format
         dimensions = Board.generate_board(height.to_i, width.to_i, mines.to_i)
-        
-        create instance
+
+        puts dimensions
+
+        # create instance
         if dimensions 
             @board = Board.new({
                 name:name, 
@@ -40,5 +42,5 @@ class BoardsController < ApplicationController
     private
     def board_params
         params.require(:board).permit(:name, :email, :width, :height,:mines)
-      end
+    end
 end

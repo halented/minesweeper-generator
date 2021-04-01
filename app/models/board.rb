@@ -7,8 +7,8 @@ class Board < ApplicationRecord
 
     def self.generate_board(height, width, mines)
 
-        # can't have more mines than spaces, h&w must be more than 0
-        if mines > height * width
+        # need at least one empty space to have a winnable board, and h&w must be more than 0
+        if mines >= height * width
             return false
         elsif height <= 0 || width <= 0
             return false
@@ -22,23 +22,19 @@ class Board < ApplicationRecord
             dimensions.push(Array.new(width, false))
         end
 
-        # randomly place mines by pretending that it's a 1d array
-        # & selecting a random index
-        length = height * width
-        previously_selected_indicies = {}
+        # randomly place mines
+        # create array to track potential mine spaces
+        length = height * width - 1
+        available_indicies = [*0..length]
 
         mines.times do
-            randomIndex = rand(0..length-1)
+            # grab a random space from the available ones
+            randomIndex = rand(0..available_indicies.length-1)
 
-            # make sure we haven't selected it before
-            while previously_selected_indicies[randomIndex]
-                randomIndex = rand(0..length-1)
-            end
+            # remove space from available list
+            available_indicies = available_indicies - [randomIndex]
 
-            # add it into the list so we won't select it again
-            previously_selected_indicies[randomIndex] = true
-
-            # do some math to put the mine into the matrix
+            # do some math to put the mine back into the 2d matrix
             # row = selectedIndex/cols rounded down
             # col = selected%cols
             row = (randomIndex/width).floor
