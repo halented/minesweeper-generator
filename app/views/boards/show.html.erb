@@ -1,4 +1,17 @@
 <h1>Currently Viewing <%=@board.name%></h1>
 <h2>...a board made by <%=@board.email%></h2>
+<ul>
+<%@board.dimensions.each do |row|%>
+<li>
+    <%row.each do |col|%>
+        <%if col === "t"%>
+        💣
+        <%else%>
+        ◻️
+        <%end%>
+    <%end%>
+</li>
+<%end%>
+</ul>
 
 <%= link_to "View All Boards", boards_path%>
