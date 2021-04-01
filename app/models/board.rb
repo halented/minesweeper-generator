@@ -7,8 +7,9 @@ class Board < ApplicationRecord
 
     def self.generate_board(height, width, mines)
 
-        # need at least one empty space to have a winnable board, and h&w must be more than 0
-        if mines >= height * width
+        # need at least one mine & one empty space to have a winnable board, 
+        # and h&w must be more than 0
+        if mines >= height * width || mines <= 0
             return false
         elsif height <= 0 || width <= 0
             return false

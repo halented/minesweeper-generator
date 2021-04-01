@@ -1,4 +1,4 @@
-<h1>all boards</h1>
+<h1>All Boards</h1>
 <ul>
 <%@boards.each do |board|%>
     <li>
@@ -6,3 +6,6 @@
     </li>
 <%end%>
 </ul
+<p>
+    <%= link_to "Create Your Own Board", new_board_path%>
+</p>

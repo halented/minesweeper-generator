@@ -1,11 +1,10 @@
-<h2>new board form</h2>
+<h2>New Board Form:</h2>
 
 <%if flash[:error]%>
     <p>Bummer! Your submission resulted in the following error(s): </p>
     <%=flash[:error]%>
     <p/>
 <%end%>
-
 <%= form_with model: @board do |f| %>
     <%= f.label :email, "Creator Email:" %>
     <%= f.text_field :email %>
@@ -24,3 +23,16 @@
     <br/>
     <%=f.submit "Generate Board"%>
 <%end %>
+
+<p>____________________________</p>
+<%if @most_recent_boards.length > 0%>
+    <h2>Most Recently Created Boards:</h2>
+    <ol>
+        <%@most_recent_boards.each do |board|%>
+            <li>
+                <%=link_to board.name, board%>, created by <%=board.email%> on <%=board.created_at.to_date%>
+            </li>
+        <%end%>
+    </ol>
+<%end%>
+<%= link_to "View All Generated Boards", boards_path%>

@@ -28,10 +28,12 @@ class BoardsController < ApplicationController
             end
         else
             flash[:error] = "Dimensions invalid. Height & width must be positive integers; mines cannot exceed available board spaces."
+            redirect_to '/'
         end
     end
 
     def new
+        @most_recent_boards = Board.last(10)
         @board = Board.new
     end
 
