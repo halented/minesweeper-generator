@@ -7,21 +7,25 @@ class BoardsController < ApplicationController
         # destructure params
         height, width, mines, email, name = board_params.values_at(:height, :width, :mines, :email, :name)
 
-        # generate 2d array board format
-        dimensions = Board.generate_board(height, width, mines)
+        # pass numbers to mondel method to generate 2d array board format
+        dimensions = Board.generate_board(height.to_i, width.to_i, mines.to_i)
         
-        # create instance
-        @board = Board.new({
-            name:name, 
-            email:email, 
-            dimensions: dimensions
-        })
+        create instance
+        if dimensions 
+            @board = Board.new({
+                name:name, 
+                email:email, 
+                dimensions: dimensions
+            })
 
-        if @board.save
-            redirect_to @board
+            if @board.save
+                redirect_to @board
+            else
+                flash[:error] = @board.errors.full_messages.to_sentence
+                redirect_to '/'
+            end
         else
-            flash[:error] = @board.errors.full_messages.to_sentence
-            redirect_to '/'
+            flash[:error] = "Dimensions invalid. Height & width must be positive integers; mines cannot exceed available board spaces."
         end
     end
 
