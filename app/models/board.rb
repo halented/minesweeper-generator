@@ -8,7 +8,9 @@ class Board < ApplicationRecord
     def self.generate_board(height, width, mines)
 
         # make sure the input would actually make a board
-        return false if !Board.dimension_validator(height, width, mines)
+        if !Board.dimension_validator(height, width, mines)
+            return false
+        end
 
         # create outer array
         dimensions = []
@@ -42,11 +44,12 @@ class Board < ApplicationRecord
     end
 
     def self.dimension_validator(height, width, mines)
-        # if there are more mines than spaces, if the h or w is negative or larger than 1k by 1k, report error to user
+        # if there are more mines than spaces, if the h or w is negative or larger than world record, report error to user
         # records for largest board is 718 x 262
+        # originally had this as 1k x 1k but one million squares seemed like...a lot
         if mines >= height * width || mines <= 0
             return false
-        elsif height <= 0 || width <= 0 || height > 1000 || width > 1000
+        elsif height <= 0 || width <= 0 || height > 718 || width > 262
             return false
         end
         return true

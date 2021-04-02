@@ -16,9 +16,7 @@ class BoardsController < ApplicationController
 
         # pass numbers to mondel method to generate 2d array board format
         dimensions = Board.generate_board(height.to_i, width.to_i, mines.to_i)
-
-        puts dimensions
-
+        
         # create instance
         if dimensions 
             @board = Board.new({
@@ -34,7 +32,7 @@ class BoardsController < ApplicationController
                 redirect_to '/'
             end
         else
-            flash[:error] = "Dimensions invalid. Height & width must be positive integers that do not exceed 1,000; mines cannot exceed available board spaces."
+            flash[:error] = "Dimensions invalid. Height & width must be positive integers that do not exceed 718 and 262 respectively; mines cannot exceed available board spaces."
             redirect_to '/'
         end
     end
