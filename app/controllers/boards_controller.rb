@@ -40,7 +40,7 @@ class BoardsController < ApplicationController
     end
 
     def new
-        @most_recent_boards = Board.last(10)
+        @most_recent_boards = Board.last(10).reverse
         @board = Board.new
     end
 

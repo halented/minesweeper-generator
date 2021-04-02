@@ -13,6 +13,9 @@
  *= require_tree .
  *= require_self
  */
+.bold {
+    font-weight: bold;
+}
 .box-card {
     display: flex;
     flex-direction: column;

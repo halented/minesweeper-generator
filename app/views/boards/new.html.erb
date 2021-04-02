@@ -3,7 +3,9 @@
 
     <%if flash[:error]%>
         <p> <span class='error'>Bummer!</span> Your submission resulted in the following error(s): </p>
+        <span class='error'>
         <%=flash[:error]%>
+        </span>
         <p/>
     <%end%>
     <%= form_with model: @board do |f| %>
@@ -13,7 +15,7 @@
         <%= f.label :name, "Board Name:" %>
         <%= f.text_field :name %>
         <p>____________________________</p>
-        <div>Board Dimensions</div>
+        <div class='bold'>Board Dimensions</div>
         <p/>
         <%= f.label :height, "Height and width (in number of squares):" %>
         <p />
