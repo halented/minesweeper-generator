@@ -1,6 +1,13 @@
 class BoardsController < ApplicationController
     def index
-        @boards = Board.all
+        @emails = Board.all.map do |b| b.email end.uniq
+        if params[:email]
+            @boards = Board.all.filter do |b| b.email === params[:email] end
+            @emails
+        else
+            @boards = Board.all
+            @emails
+        end
     end
     
     def create
@@ -27,7 +34,7 @@ class BoardsController < ApplicationController
                 redirect_to '/'
             end
         else
-            flash[:error] = "Dimensions invalid. Height & width must be positive integers; mines cannot exceed available board spaces."
+            flash[:error] = "Dimensions invalid. Height & width must be positive integers that do not exceed 1,000; mines cannot exceed available board spaces."
             redirect_to '/'
         end
     end
@@ -39,6 +46,10 @@ class BoardsController < ApplicationController
 
     def show
         @board = Board.find(params[:id])
+    end
+
+    def sort_by_creator
+        @boards = Board.all.filter do |b| b.email === params[:email] end
     end
 
     private

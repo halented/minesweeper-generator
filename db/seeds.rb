@@ -5,3 +5,16 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Board.delete_all
+emails = ["tampa@bay.com", "josey@wales.com", "discoball@gmail.com", "virgo@stars.com"]
+
+15.times do
+    h = rand(2..10)
+    w = rand(2..10)
+    m = h
+    Board.create({
+        name: Faker::Restaurant.name, 
+        email: emails.sample, 
+        dimensions: Board.generate_board(h,w,m)
+    })
+end

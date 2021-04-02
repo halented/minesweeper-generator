@@ -6,6 +6,9 @@ ruby '2.6.3'
 # add postgres for heroku deployment
 gem 'pg'
 
+# add faker for seeds
+gem 'faker'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.1'
 # Use sqlite3 as the database for Active Record

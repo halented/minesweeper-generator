@@ -2,7 +2,7 @@
 <h2>...a board made by <%=@board.email%></h2>
 <ul>
 <%@board.dimensions.each do |row|%>
-<li>
+<li class='board_visual'>
     <%row.each do |col|%>
         <%if col === "t"%>
         💣
