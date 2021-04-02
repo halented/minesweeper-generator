@@ -1,18 +1,20 @@
-<h1>All Boards</h1>
-<p>Alternatively, select creator below...</p>
+<div class='box-card'>
+    <h1>All Boards</h1>
+    <p>Alternatively, select creator below...</p>
 
-<%= form_with url: "boards", method: :get do |f| %>
-    <%=select_tag "email", options_from_collection_for_select(@emails, :to_str, :to_str)%>
-    <%= f.submit  "Show Boards"%>
-<% end  %>
+    <%= form_with url: "boards", method: :get do |f| %>
+        <%=select_tag "email", options_from_collection_for_select(@emails, :to_str, :to_str)%>
+        <%= f.submit  "Show Boards"%>
+    <% end  %>
 
-<ul>
-<%@boards.each do |board|%>
-    <li>
-    <%= link_to board.name, board%>
-    </li>
-<%end%>
-</ul
-<p>
-    <%= link_to "Create Your Own Board", new_board_path%>
-</p>
+    <ul class='no-bullets'>
+    <%@boards.each do |board|%>
+        <li>
+        <%= link_to board.name, board%>
+        </li>
+    <%end%>
+    </ul>
+    <p>
+        <%= link_to "Create Your Own Board", new_board_path%>
+    </p>
+</div>

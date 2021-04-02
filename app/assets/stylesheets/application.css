@@ -13,7 +13,25 @@
  *= require_tree .
  *= require_self
  */
+.box-card {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+}
 
-.board_visual {
+.error {
+    color: rgb(129, 38, 38);
+}
+
+.no-bullets {
     list-style: none;
+    padding: 0%;
+}
+
+.top-ten {
+    text-align: center;
+    background-color: rgb(170, 170, 170);
+    border-radius: 5px;
 }

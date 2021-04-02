@@ -1,38 +1,43 @@
-<h2>New Board Form:</h2>
+<div class='box-card'>
+    <h2>New Board Form:</h2>
 
-<%if flash[:error]%>
-    <p>Bummer! Your submission resulted in the following error(s): </p>
-    <%=flash[:error]%>
-    <p/>
-<%end%>
-<%= form_with model: @board do |f| %>
-    <%= f.label :email, "Creator Email:" %>
-    <%= f.text_field :email %>
-    <p/>
-    <%= f.label :name, "Board Name:" %>
-    <%= f.text_field :name %>
+    <%if flash[:error]%>
+        <p> <span class='error'>Bummer!</span> Your submission resulted in the following error(s): </p>
+        <%=flash[:error]%>
+        <p/>
+    <%end%>
+    <%= form_with model: @board do |f| %>
+        <%= f.label :email, "Creator Email:" %>
+        <%= f.text_field :email %>
+        <p/>
+        <%= f.label :name, "Board Name:" %>
+        <%= f.text_field :name %>
+        <p>____________________________</p>
+        <div>Board Dimensions</div>
+        <p/>
+        <%= f.label :height, "Height and width (in number of squares):" %>
+        <p />
+        <%= f.number_field :height, placeholder: "height"%> X
+        <%= f.number_field :width, placeholder: "width"%>
+        <br/>
+        <p />
+        <%= f.label :mines, "Number of mines:" %>
+        <%= f.number_field :mines %> 
+        <p />
+        <%=f.submit "Generate Board"%>
+    <%end %>
+</div>
+<div class='top-ten'>
     <p>____________________________</p>
-    <div>Board Dimensions</div>
-    <p/>
-    <%= f.label :height, "Height and width (in number of squares):" %>
-    <%= f.number_field :height, placeholder: "height" %> X
-    <%= f.number_field :width, placeholder: "width"%>
-    <br/>
-    <%= f.label :mines, "Number of mines:" %>
-    <%= f.number_field :mines %> 
-    <br/>
-    <%=f.submit "Generate Board"%>
-<%end %>
-
-<p>____________________________</p>
-<%if @most_recent_boards.length > 0%>
-    <h2>Most Recently Created Boards:</h2>
-    <ol>
-        <%@most_recent_boards.each do |board|%>
-            <li>
-                <%=link_to board.name, board%>, created by <%=board.email%> on <%=board.created_at.to_date%>
-            </li>
-        <%end%>
-    </ol>
-<%end%>
-<%= link_to "View All Generated Boards", boards_path%>
+    <%if @most_recent_boards.length > 0%>
+        <h2>Most Recently Created Boards:</h2>
+        <ol>
+            <%@most_recent_boards.each do |board|%>
+                <li>
+                    <%=link_to board.name, board%>, created by <%=board.email%> on <%=board.created_at.to_date%>
+                </li>
+            <%end%>
+        </ol>
+    <%end%>
+    <%= link_to "View All Generated Boards", boards_path%>
+</div>
