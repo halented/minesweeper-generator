@@ -29,17 +29,17 @@
         <%=f.submit "Generate Board"%>
     <%end %>
 </div>
-<div class='top-ten'>
-    <p>____________________________</p>
-    <%if @most_recent_boards.length > 0%>
-        <h2>Most Recently Created Boards:</h2>
-        <ol>
-            <%@most_recent_boards.each do |board|%>
-                <li>
-                    <%=link_to board.name, board%>, created by <%=board.email%> on <%=board.created_at.to_date%>
-                </li>
-            <%end%>
-        </ol>
-    <%end%>
-    <%= link_to "View All Generated Boards", boards_path%>
-</div>
+<%if @most_recent_boards.length > 0%>
+    <div class='top-ten'>
+        <p>____________________________</p>
+            <h2>Most Recently Created Boards:</h2>
+            <ol>
+                <%@most_recent_boards.each do |board|%>
+                    <li>
+                        <%=link_to board.name, board%>, created by <%=board.email%> on <%=board.created_at.to_date%>
+                    </li>
+                <%end%>
+            </ol>
+        <%= link_to "View All Generated Boards", boards_path%>
+    </div>
+<%end%>
