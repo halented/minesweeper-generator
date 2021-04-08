@@ -1,4 +1,6 @@
 class Board < ApplicationRecord
+    has_many :mines
+    
     # name & email must exist
     validates :name, :email, presence: true
 
