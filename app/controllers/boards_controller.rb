@@ -1,12 +1,12 @@
 class BoardsController < ApplicationController
     def index
-        @emails = Board.all.map do |b| b.email end.uniq
+        # pluck will do a select of the values wanted, instead of loading whole model in
+        @emails = Board.all.pluck do |b| b.email end.uniq
+
         if params[:email]
             @boards = Board.all.filter do |b| b.email === params[:email] end
-            @emails
         else
             @boards = Board.all
-            @emails
         end
     end
     
@@ -28,12 +28,14 @@ class BoardsController < ApplicationController
             if @board.save
                 redirect_to @board
             else
+                # using render :new so we dont lose form data
                 flash[:error] = @board.errors.full_messages.to_sentence
-                redirect_to '/'
+                render :new
             end
         else
+            # not best practice to have a catch-all flash message
             flash[:error] = "Dimensions invalid. Height & width must be positive integers that do not exceed 718 and 262 respectively; mines cannot exceed available board spaces."
-            redirect_to '/'
+            render :new
         end
     end
 
@@ -44,10 +46,6 @@ class BoardsController < ApplicationController
 
     def show
         @board = Board.find(params[:id])
-    end
-
-    def sort_by_creator
-        @boards = Board.all.filter do |b| b.email === params[:email] end
     end
 
     private
