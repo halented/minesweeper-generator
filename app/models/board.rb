@@ -1,25 +1,23 @@
 class Board < ApplicationRecord
     has_many :mines
-    
+
     # name & email must exist
     validates :name, :email, presence: true
 
     # board name must be unique
     validates :name, uniqueness: true
 
-    def self.generate_board(height, width, mines)
+    # add validation here to make sure the h & w is a positive integer and that mines do not exceed h*w
 
-        # make sure the input would actually make a board
-        if !Board.dimension_validator(height, width, mines)
-            return false
-        end
+    def self.generate_mine_values(height, width, mines)
+        # this method should return a 2d array of objs representing "the state of the board before the game starts"
 
         # create outer array
-        dimensions = []
+        mines = []
 
         # add correct number of inner arrays (rows) with correct number of elements (cols)
         height.times do 
-            dimensions.push(Array.new(width, false))
+            mines.push(Array.new(width, false))
         end
 
         # randomly place mines
@@ -39,22 +37,11 @@ class Board < ApplicationRecord
             # col = selected%cols
             row = (randomIndex/width).floor
             col = randomIndex%width
-            dimensions[row][col] = true
+            mines[row][col] = true
         end
 
-        dimensions
+        mines
     end
 
-    def self.dimension_validator(height, width, mines)
-        # if there are more mines than spaces, if the h or w is negative or larger than world record, report error to user
-        # records for largest board is 718 x 262
-        # originally had this as 1k x 1k but one million squares seemed like...a lot
-        if mines >= height * width || mines <= 0
-            return false
-        elsif height <= 0 || width <= 0 || height > 718 || width > 262
-            return false
-        end
-        return true
-    end
 
 end

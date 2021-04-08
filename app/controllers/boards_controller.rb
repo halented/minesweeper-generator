@@ -1,4 +1,5 @@
 class BoardsController < ApplicationController
+    
     def index
         # pluck will do a select of the values wanted, instead of loading whole model in
         @emails = Board.pluck(:email).uniq
@@ -13,32 +14,32 @@ class BoardsController < ApplicationController
     def create
         # destructure params
         height, width, mines, email, name = board_params.values_at(:height, :width, :mines, :email, :name)
-
-        # pass numbers to mondel method to generate 2d array board format
-        dimensions = Board.generate_board(height.to_i, width.to_i, mines.to_i)
         
-        # create instance
-        if dimensions 
-            @board = Board.new({
-                name:name, 
-                email:email, 
-                dimensions: dimensions
-            })
+        # create board instance
+        @board = Board.new({
+            name:name, 
+            email:email, 
+            height:height,
+            width:width,
+        })
 
-            if @board.save
-                redirect_to @board
-            else
-                # use render :new so it populates the form with the board data that was sent through on first attempt -- on the frontend it looks like it "didn't delete" the form data. kind of awkward with h/w/m right now because those are not a part of the model, so they don't populate correctly through this render :new
-                flash[:error] = @board.errors.full_messages.to_sentence        
-                @most_recent_boards = Board.last(10).reverse
-                @board      
-                render :new
+        if @board.save
+
+            # if the board's valid, create mine instances by passing numbers to model method to generate 2d array board format
+            mines = Board.generate_mine_values(height.to_i, width.to_i, mines.to_i)
+
+            # persist each one to DB
+            mines.each do |mine|
+                mine.board_id = @board.id
+                Mine.create(mine)
             end
+
+            redirect_to @board
         else
-            # not best practice to have a catch-all flash message. will be changed once the models are updated
-            flash[:error] = "Dimensions invalid. Height & width must be positive integers that do not exceed 718 and 262 respectively; mines cannot exceed available board spaces."
+            # if board's not valid, use render :new so it populates the form with the board data that was sent through on first attempt
+            flash[:error] = @board.errors.full_messages.to_sentence        
             @most_recent_boards = Board.last(10).reverse
-            @board
+            @board      
             render :new
         end
     end
@@ -54,6 +55,6 @@ class BoardsController < ApplicationController
 
     private
     def board_params
-        params.require(:board).permit(:name, :email, :width, :height,:mines)
+        params.require(:board).permit(:name, :email, :width, :height, :mines)
     end
 end
