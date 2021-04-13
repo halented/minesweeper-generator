@@ -26,12 +26,11 @@ class BoardsController < ApplicationController
         if @board.save
 
             # if the board's valid, create mine instances by passing numbers to model method to generate 2d array board format
-            mines = Board.generate_mine_values(height.to_i, width.to_i, mines.to_i)
+            mines = Mine.generate_mine_values(height.to_i, width.to_i, mines.to_i)
 
             # persist each one to DB
-            mines.each do |mine|
-                mine.board_id = @board.id
-                Mine.create(mine)
+            mines.each do |name, coords|
+                Mine.create({**coords, "board_id"=>@board.id})
             end
 
             redirect_to @board

@@ -1,19 +1,7 @@
 <div class='box-card'>
     <h1>Currently Viewing <%=@board.name%></h1>
     <h2>...a board made by <%=@board.email%></h2>
-    <ul class='no-bullets'>
-    <%@board.dimensions.each do |row|%>
-    <li>
-        <%row.each do |col|%>
-            <%if col === "t"%>
-            💣
-            <%else%>
-            ◻️
-            <%end%>
-        <%end%>
-    </li>
-    <%end%>
-    </ul>
+
 
     <%= link_to "View All Boards", boards_path%>
     <%= link_to "Create a New Board", new_board_path%>

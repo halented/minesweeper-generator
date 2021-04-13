@@ -1,0 +1,13 @@
+    <ul class='no-bullets'>
+        <%@board.dimensions.each do |row|%>
+        <li>
+            <%row.each do |col|%>
+            <%if col === "t"%>
+            💣
+            <%else%>
+            ◻️
+            <%end%>
+            <%end%>
+        </li>
+        <%end%>
+    </ul>
