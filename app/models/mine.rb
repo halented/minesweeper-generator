@@ -1,7 +1,7 @@
 class Mine < ApplicationRecord
   belongs_to :board
 
-  def self.generate_mine_values(height, width, mine_count)
+  def self.generate_mine_values(height, width, mine_count, board_id)
     # this method should return a 2d array of objs representing "the state of the board before the game starts"
 
     # create record of selected mine locations
@@ -21,6 +21,8 @@ class Mine < ApplicationRecord
         # once we get fresh ones, add them to the record
         mine_locations["X#{randomX}Y#{randomY}"] = {"x": randomX, "y": randomY}
 
+        # and save to DB
+        Mine.create({"x": randomX, "y": randomY, "board_id"=>board_id})
     end
 
     mine_locations

@@ -16,29 +16,26 @@ class BoardsController < ApplicationController
         height, width, mines, email, name = board_params.values_at(:height, :width, :mines, :email, :name)
         
         # create board instance
-        @board = Board.new({
+        @new_board = Board.new({
             name:name, 
             email:email, 
             height:height,
             width:width,
         })
 
-        if @board.save
+        if @new_board.save
 
             # if the board's valid, create mine instances by passing numbers to model method to generate 2d array board format
-            mines = Mine.generate_mine_values(height.to_i, width.to_i, mines.to_i)
+            Mine.generate_mine_values(height.to_i, width.to_i, mines.to_i, @new_board.id)
 
-            # persist each one to DB
-            mines.each do |name, coords|
-                Mine.create({**coords, "board_id"=>@board.id})
-            end
-            @board = BoardSerializer.new(@board)
-            redirect_to @board
+            @board = BoardSerializer.new(@new_board)
+            redirect_to action: "show", id: @new_board.id
+            
         else
             # if board's not valid, use render :new so it populates the form with the board data that was sent through on first attempt
-            flash[:error] = @board.errors.full_messages.to_sentence        
+            flash[:error] = @new_board.errors.full_messages.to_sentence        
             @most_recent_boards = Board.last(10).reverse
-            @board      
+            @new_board      
             render :new
         end
     end
