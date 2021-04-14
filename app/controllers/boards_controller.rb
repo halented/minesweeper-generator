@@ -49,7 +49,8 @@ class BoardsController < ApplicationController
     end
 
     def show
-        @board = Board.find(params[:id])
+        board_selected = Board.find(params[:id])
+        @board = BoardSerializer.new(board_selected)
     end
 
     private

@@ -7,6 +7,7 @@ class Board < ApplicationRecord
     # board name must be unique
     validates :name, uniqueness: true
 
-    # add validation here to make sure the h & w is a positive integer and that mines do not exceed h*w
+    # h & w are positive integers
+    validates :height, :width, :numericality => { :greater_than_or_equal_to => 0 }
 
 end
