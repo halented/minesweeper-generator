@@ -32,7 +32,7 @@ class BoardsController < ApplicationController
             mines.each do |name, coords|
                 Mine.create({**coords, "board_id"=>@board.id})
             end
-
+            @board = BoardSerializer.new(@board)
             redirect_to @board
         else
             # if board's not valid, use render :new so it populates the form with the board data that was sent through on first attempt

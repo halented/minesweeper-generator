@@ -1,6 +1,7 @@
 <div class='box-card'>
     <h1>Currently Viewing <%=@board.object.name%></h1>
     <h2>...a board made by <%=@board.object.email%></h2>
+    <%if @board.object.height*@board.object.width < 1000000 %>
     <ul class='no-bullets'>
         <%@board.object.height.times do |row|%>
         <li>
@@ -14,6 +15,21 @@
         </li>
         <%end%>
     </ul>
+    <%else%>
+    <p>Board dimensions: <%=@board.object.height%> X <%=@board.object.width%></p>
+    <div>...for a total of <%=@board.object.height*@board.object.width%> spaces. </div>
+    <p>
+        Mine locations are as follows:
+
+    <ul>
+        <%@board.hashed_mines.each do |name, coords|%>
+        <li>
+            <%=name%>
+        </li>
+        <%end%>
+    </ul>
+    </p>
+    <%end%>
     <%= link_to "View All Boards", boards_path%>
     <%= link_to "Create a New Board", new_board_path%>
 </div>
