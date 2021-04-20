@@ -1,39 +1,42 @@
 class BoardsController < ApplicationController
+    
     def index
-        @emails = Board.all.map do |b| b.email end.uniq
+        # pluck will do a select of the values wanted, instead of loading whole model in
+        @emails = Board.pluck(:email).uniq
+        
         if params[:email]
             @boards = Board.all.filter do |b| b.email === params[:email] end
-            @emails
         else
             @boards = Board.all
-            @emails
         end
     end
     
     def create
         # destructure params
         height, width, mines, email, name = board_params.values_at(:height, :width, :mines, :email, :name)
-
-        # pass numbers to mondel method to generate 2d array board format
-        dimensions = Board.generate_board(height.to_i, width.to_i, mines.to_i)
         
-        # create instance
-        if dimensions 
-            @board = Board.new({
-                name:name, 
-                email:email, 
-                dimensions: dimensions
-            })
+        # create board instance
+        @new_board = Board.new({
+            name:name, 
+            email:email, 
+            height:height,
+            width:width,
+        })
 
-            if @board.save
-                redirect_to @board
-            else
-                flash[:error] = @board.errors.full_messages.to_sentence
-                redirect_to '/'
-            end
+        if @new_board.save
+
+            # if the board's valid, create mine instances by passing numbers to model method to generate 2d array board format
+            Mine.generate_mine_values(height.to_i, width.to_i, mines.to_i, @new_board.id)
+
+            @board = BoardSerializer.new(@new_board)
+            redirect_to action: "show", id: @new_board.id
+            
         else
-            flash[:error] = "Dimensions invalid. Height & width must be positive integers that do not exceed 718 and 262 respectively; mines cannot exceed available board spaces."
-            redirect_to '/'
+            # if board's not valid, use render :new so it populates the form with the board data that was sent through on first attempt
+            flash[:error] = @new_board.errors.full_messages.to_sentence        
+            @most_recent_boards = Board.last(10).reverse
+            @new_board      
+            render :new
         end
     end
 
@@ -43,15 +46,12 @@ class BoardsController < ApplicationController
     end
 
     def show
-        @board = Board.find(params[:id])
-    end
-
-    def sort_by_creator
-        @boards = Board.all.filter do |b| b.email === params[:email] end
+        board_selected = Board.find(params[:id])
+        @board = BoardSerializer.new(board_selected)
     end
 
     private
     def board_params
-        params.require(:board).permit(:name, :email, :width, :height,:mines)
+        params.require(:board).permit(:name, :email, :width, :height, :mines)
     end
 end

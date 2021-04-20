@@ -8,7 +8,7 @@ Guidelines:
 
 
 **The app specs are as follows:**
-We are building a simple rails application that allows users to generate minesweeper boards as well as to view previously generated
+We are building a rails application that allows users to generate minesweeper boards as well as to view previously generated
 minesweeper boards.
 
 When I visit the app’s root url, it should take me to a page that’s clearly labeled, where I am prompted to enter my email address, a
